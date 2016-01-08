@@ -4,8 +4,10 @@
         <title>Image Crawler</title>
         <meta charset="UTF-8">
         <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-        <script type="text/javascript" src="jquery.infinitescroll.min.js"></script>
         <script type="text/javascript" src="endless-scroll.js"></script>
+        <style>
+            img { width: 600px; }
+        </style>
     </head>
 
     <body>
@@ -26,12 +28,8 @@
 
         <a id="next" href="content.html"></a>
 
-        <script type="text/javascript">
-            var QueryURL = "https://api.datamarket.azure.com/Bing/Search/Image?$format=json&Query=";
-            var accountKey = "NgrxKg56U9UaZq0w0z4ZEKRxgMt7LDGjKaHrPgpoY7M=";
-            var encodedKey = btoa(':'+accountKey);
-            var imageIndex = 0;
-
+        <script type="text/javascript" src="script.js">
+/*
             function genImage(data) {
                 for(var i=0; (imageIndex < data.length) && (i < 10); i++) {
                     var image = document.createElement("img");
@@ -94,7 +92,8 @@
                     //    return imageIndex < data.length;
                     //}
                 });
-            });
+            });*/
+            
 
         </script>
     </body>
