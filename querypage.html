@@ -14,7 +14,7 @@
         <div id="search">
             <h1>Image Crawler</h1>
             <h4>This is not a |.</h4>
-            <p>Ceci n'est pas un pipe.</p>
+            <p>Ceci n'est pas une pipe.</p>
             <input id="keyword" type="text" size="50" value=""/>
             <input id="btn_search" type="submit" value="Search Image"/>
             <br>
@@ -22,79 +22,8 @@
 
         <div id="result">
             <h3 id="label"></h3>
-            <!--<ul id="resultList">-->
-            </ul>
         </div>
-
-        <a id="next" href="content.html"></a>
-
-        <script type="text/javascript" src="script.js">
-/*
-            function genImage(data) {
-                for(var i=0; (imageIndex < data.length) && (i < 10); i++) {
-                    var image = document.createElement("img");
-                    //var imageLine = document.createElement("li");
-                    var parent = document.getElementById("result");
-
-                    //imageLine.id = "line"+imageIndex;
-                    //parent.appendChild(imageLine);
-
-                    image.id = "image"+imageIndex;
-                    image.src = data[imageIndex]["MediaUrl"];
-                    image.width = 600;
-                    //imageLine.appendChild(image);
-                    parent.appendChild(image);
-                    imageIndex++;
-                }
-            }
-
-            function handleResult(result) {
-                $("#label").text(input);
-                var resultLength = dataArr.length;
-
-                alert(resultLength);
-
-                genImage(result["d"]["results"]);
-            }
-
-            function setHeader(xhr) {
-                xhr.setRequestHeader('Authorization','Basic '+encodedKey);
-            }
-
-            function sendQuery(callback) {
-                input = $("#keyword").val();
-                var qInput = encodeURIComponent(input);
-                var requestURL = QueryURL+"%27"+qInput+"%27";
-
-                $.ajax({
-                    type:"GET",
-                    url:requestURL,
-                    beforeSend: setHeader,
-                    dataType:"json"
-                }).done(function(data) {
-                    callback(data);
-                });
-            }
-
-            $(function() {
-                $("#btn_search").click(function() {
-                    sendQuery(handleResult);
-                });
-
-                $(document).endlessScroll({
-                    bottomPixels: 50,
-                    fireDelay: 10,
-                    loader: "<br/>Loading...<br/>",
-                    callback: function(n) {
-                        nextPage(handleResult);
-                    }
-                    //ceaseFire: function() {
-                    //    return imageIndex < data.length;
-                    //}
-                });
-            });*/
-            
-
-        </script>
+        
+        <script type="text/javascript" src="buffered_script.js"></script>
     </body>
 </html>
