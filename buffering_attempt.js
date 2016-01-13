@@ -1,5 +1,7 @@
 (function($,undefined) {
 	var map = {};
+	var ref = new Firebase("https://luminous-torch-8660.firebaseio.com/");
+
 //required data for query
 	var bingQuery = {
 		queryUrl: "https://api.datamarket.azure.com/Bing/Search/Image",
@@ -14,17 +16,16 @@
 	}
 
 //query
-	function requestQuery(cond, callback) {
-		var queryCond = cond;
+	function requestQuery(config, callback) {
 		$.ajax({
-			beforeSend: cond.setHeader,
+			beforeSend: config.setHeader,
 			type: "GET",
-			url: cond.queryUrl,
+			url: config.queryUrl,
 			data: {
-				$format: cond.format,
-				Query: encodeURIComponent("'"+cond.inputText+"'"),
-				$top: cond.item,
-				$skip: cond.page++*(cond.item)
+				$format: config.format,
+				Query: encodeURIComponent("'"+config.inputText+"'"),
+				$top: config.item,
+				$skip: config.page++*(config.item)
 			},
 			dataType: "json",
 			success: function(responseData) {
@@ -76,35 +77,47 @@
 //draw
 	function appendImage(result) {
 		var parent = document.getElementById("result");
-		var image;
+		var image, check, template;
 		for(var i = 0; i < result.length; i++) {
+			template = document.createElement("div");
+			template.className = "imageView";
+			parent.appendChild(template);
+
 			image = document.createElement("img");
 			image.src = result[i]["MediaUrl"];
-			parent.appendChild(image);
+			template.appendChild(image);
+
+			check = document.createElement("input");
+			check.type = "checkbox";
+			check.className = "selection";
+			check.checked = true;
+			template.appendChild(check);
+
+			parent.appendChild(document.createElement("br"));
 		}
 	}
 
 	var BufferedCrawler = function(callback) {
 		var bufferInstance = buffer(callback);
 		return {
-			getFirstPage: function(cond, optionalCallback) {
+			getFirstPage: function(config, optionalCallback) {
 				bufferInstance.clear();
-				requestQuery(cond, optionalCallback || callback);
-				requestQuery(cond, bufferInstance.wrapper(optionalCallback));
+				requestQuery(config, optionalCallback || callback);
+				requestQuery(config, bufferInstance.wrapper(optionalCallback));
 			},
-			getNewPage: function(cond, optionalCallback) {
-				requestQuery(cond, bufferInstance.wrapper(optionalCallback));
+			getNewPage: function(config, optionalCallback) {
+				requestQuery(config, bufferInstance.wrapper(optionalCallback));
 			}
 		};
 	};
 
 	var UnbufferedCrawler = function(callback) {
 		return {
-			getFirstPage: function(cond, optionalCallback) {
-				requestQuery(cond, optionalCallback || callback);
+			getFirstPage: function(config, optionalCallback) {
+				requestQuery(config, optionalCallback || callback);
 			},
-			getNewPage: function(cond, optionalCallback) {
-				requestQuery(cond, optionalCallback || callback);
+			getNewPage: function(config, optionalCallback) {
+				requestQuery(config, optionalCallback || callback);
 			}
 		};
 	};
@@ -113,6 +126,7 @@
 	var crawler = BufferedCrawler(appendImage);
 
 	$("#btn_search").click(function() {
+		map = {};
 		var targetApi = bingQuery;
 		targetApi.inputText = $('#keyword').val();
 		$("#result").empty();

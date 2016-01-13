@@ -4,9 +4,19 @@
         <title>Image Crawler</title>
         <meta charset="UTF-8">
         <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script type="text/javascript" src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
         <script type="text/javascript" src="endless-scroll.js"></script>
         <style>
-            img { width: 600px; }
+            img { width: 400px; }
+            input.selection {
+                display: table-cell;
+                vertical-align: top;
+            }
+            div.imageView {
+                width: 425px;
+                margin: 5px;
+                border-bottom: thin solid #888888;
+            }
         </style>
     </head>
 
@@ -17,13 +27,14 @@
             <p>Ceci n'est pas une pipe.</p>
             <input id="keyword" type="text" size="50" value=""/>
             <input id="btn_search" type="submit" value="Search Image"/>
+            <input id="btn_save" type="submit" value="Save Image"/>
             <br>
         </div>
 
         <div id="result">
-            <h3 id="label"></h3>
         </div>
-        
-        <script type="text/javascript" src="buffered_script.js"></script>
+
+        <script type="text/javascript" src="buffering_attempt.js"></script>
+        <!--<script type="text/javascript" src="on_firebase.js"></script>-->
     </body>
 </html>
