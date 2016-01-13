@@ -1,6 +1,6 @@
 (function($,undefined) {
-	var map = {};
-	var ref = new Firebase("https://luminous-torch-8660.firebaseio.com/");
+	var resultMap = {};
+	var ref = new Firebase("https://luminous-torch-8660.firebaseio.com/").child("images");
 
 //required data for query
 	var bingQuery = {
@@ -31,11 +31,11 @@
 			success: function(responseData) {
 				var results = responseData["d"]["results"];
 				callback(results.filter(function(result) {
-					if (map[result["SourceUrl"]]) {
+					if (resultMap[result["MediaUrl"]]) {
 						console.error("Duplicated:", result["MediaUrl"]);
 						return false;
 					}
-					map[result["SourceUrl"]] = result;
+					resultMap[result["MediaUrl"]] = result;
 					return true;
 				}));
 			}
@@ -122,14 +122,27 @@
 		};
 	};
 
+//upload to Firebase DB
+	function uploadImg() {
+		if($(this.children[1]).is(':checked')) {
+			var jsonData = resultMap[this.children[0].src];
+			//ref.child(jsonData["SourceUrl"]).set(jsonData);
+			ref.push(jsonData);
+		}
+	}
+
 //event handling
 	var crawler = BufferedCrawler(appendImage);
 
-	$("#btn_search").click(function() {
-		map = {};
+	$('#btn_save').click(function() {
+		$('#result').find(".imageView").map(uploadImg);
+	});
+
+	$('#btn_search').click(function() {
+		resultMap = {};
 		var targetApi = bingQuery;
 		targetApi.inputText = $('#keyword').val();
-		$("#result").empty();
+		$('#result').empty();
 		$('#label').text(targetApi.inputText);
 		
 		targetApi.page = 0;
