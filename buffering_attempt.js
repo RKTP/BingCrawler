@@ -124,15 +124,22 @@
 		};
 	};
 
+	function getLocation(link) {
+		var location = document.createElement("a");
+		location.href = link;
+		return location;
+	}
+
 //upload to Firebase DB
 	function uploadImg() {
 		if($(this.children[1]).is(':checked')) {
 			var jsonData = resultMap[this.children[0].src];
-			var dataKey = btoa(jsonData["MediaUrl"]);
-			keyRef.once('value',function(snapshot) {
-				if(!snapshot.child(dataKey).exists()) {
-					imageRef.push(jsonData);
-					keyRef.child(dataKey).push("");
+			var location = getLocation(jsonData["MediaUrl"]);
+			var host = btoa(location.hostname);
+			var path = btoa(location.pathname);
+			imageRef.once('value',function(snapshot) {
+				if(!snapshot.child(host).exists() || !snapshot.child(host).child(path).exists()) {
+					imageRef.child(host).child(path).set(jsonData);
 				}
 			});
 		}
