@@ -1,6 +1,8 @@
 (function($,undefined) {
 	var resultMap = {};
-	var ref = new Firebase("https://luminous-torch-8660.firebaseio.com/").child("images");
+	var ref = new Firebase("https://luminous-torch-8660.firebaseio.com/");
+	var imageRef = ref.child("images");
+	var keyRef = ref.child("key");
 
 //required data for query
 	var bingQuery = {
@@ -126,8 +128,13 @@
 	function uploadImg() {
 		if($(this.children[1]).is(':checked')) {
 			var jsonData = resultMap[this.children[0].src];
-			//ref.child(jsonData["SourceUrl"]).set(jsonData);
-			ref.push(jsonData);
+			var dataKey = btoa(jsonData["MediaUrl"]);
+			keyRef.once('value',function(snapshot) {
+				if(!snapshot.child(dataKey).exists()) {
+					imageRef.push(jsonData);
+					keyRef.child(dataKey).push("");
+				}
+			});
 		}
 	}
 
