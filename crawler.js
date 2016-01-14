@@ -77,29 +77,12 @@ function buffer(callback) {
 
 //draw
 function appendImage(result) {
-	var parent = document.getElementById("result");
-	var image, check, template, label;
+	var parent = $("#result");
+	var structure = $("#script_template").html();
+	var template = Handlebars.compile(structure);
 	for(var i = 0; i < result.length; i++) {
-		template = document.createElement("div");
-		template.className = "imageView";
-		parent.appendChild(template);
-
-		label = document.createElement("label");
-
-		image = document.createElement("img");
-		image.src = result[i]["MediaUrl"];
-		image.className = "image";
-		label.appendChild(image);
-
-		check = document.createElement("input");
-		check.type = "checkbox";
-		check.className = "selection";
-		check.checked = true;
-		label.appendChild(check);
-
-		template.appendChild(label);
-
-		parent.appendChild(document.createElement("br"));
+		var html = template({imageSrc: result[i]["MediaUrl"]});
+		parent.append(html);
 	}
 }
 
@@ -130,9 +113,8 @@ var UnbufferedCrawler = function(callback) {
 
 //upload to Firebase DB
 function uploadImg() {
-	var label = this.children[0];
-	if($(label.children[1]).is(':checked')) {
-		var jsonData = resultMap[label.children[0].src];
+	if($(this).find(".selection").is(':checked')) {
+		var jsonData = resultMap[$(this).find(".image").attr("src")];
 		var location = new URL(jsonData["MediaUrl"]);
 		var host = btoa(location.origin);
 		var path = btoa(location.href);
@@ -164,7 +146,7 @@ $('#btn_search').click(function() {
 	targetApi.inputText = $('#keyword').val();
 	$('#result').empty();
 	$('#label').text(targetApi.inputText);
-	
+
 	targetApi.page = 0;
 	crawler.getFirstPage(targetApi);
 });

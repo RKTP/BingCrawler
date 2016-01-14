@@ -12,8 +12,9 @@
     input.selection {
         vertical-align: top;
     }
-    div.imageView {
-        width: 425px;
+    label.imageView {
+        display: inline-block;
+        width: 430px;
         margin: 5px;
         border-bottom: thin solid #888888;
     }
@@ -25,13 +26,22 @@
         <h1>Image Crawler</h1>
         <h4>This is not a |.</h4>
         <p>Ceci n'est pas une pipe.</p>
-        <input id="keyword" type="text" size="50" value=""/>
+        <input id="keyword" type="text" size="50"/>
         <input id="btn_search" type="submit" value="Search Image"/>
         <input id="btn_save" type="submit" value="Save Image"/>
         <br>
     </div>
 
-    <div id="result"></div>
+    <script id="script_template" type="text/x-handlebars-tamplate">
+    <label class="imageView">
+    <img class="image" src="{{imageSrc}}"/>
+    <input type="checkbox" class="selection" checked />
+    </label>
+    <br>
+    </script>
+
+    <div id="result">
+    </div>
 
     <script type="text/javascript" src="crawler.js"></script>
 </body>
