@@ -1,38 +1,38 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>Image Crawler</title>
-        <meta charset="UTF-8">
-        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-        <script type="text/javascript" src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/handlebarsjs/4.0.5/handlebars.min.js"></script>
-        <script type="text/javascript" src="endless-scroll.js"></script>
-        <style>
-            img { width: 400px; }
-            input.selection {
-                vertical-align: top;
-            }
-            div.imageView {
-                width: 425px;
-                margin: 5px;
-                border-bottom: thin solid #888888;
-            }
-        </style>
-    </head>
+<head>
+    <title>Image Crawler</title>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/handlebarsjs/4.0.5/handlebars.min.js"></script>
+    <script type="text/javascript" src="endless-scroll.js"></script>
+    <style>
+    img { width: 400px; }
+    input.selection {
+        vertical-align: top;
+    }
+    div.imageView {
+        width: 425px;
+        margin: 5px;
+        border-bottom: thin solid #888888;
+    }
+    </style>
+</head>
 
-    <body>
-        <div id="search">
-            <h1>Image Crawler</h1>
-            <h4>This is not a |.</h4>
-            <p>Ceci n'est pas une pipe.</p>
-            <input id="keyword" type="text" size="50" value=""/>
-            <input id="btn_search" type="submit" value="Search Image"/>
-            <input id="btn_save" type="submit" value="Save Image"/>
-            <br>
-        </div>
+<body>
+    <div id="search">
+        <h1>Image Crawler</h1>
+        <h4>This is not a |.</h4>
+        <p>Ceci n'est pas une pipe.</p>
+        <input id="keyword" type="text" size="50" value=""/>
+        <input id="btn_search" type="submit" value="Search Image"/>
+        <input id="btn_save" type="submit" value="Save Image"/>
+        <br>
+    </div>
 
-        <div id="result"></div>
+    <div id="result"></div>
 
-        <script type="text/javascript" src="crawler.js"></script>
-    </body>
+    <script type="text/javascript" src="crawler.js"></script>
+</body>
 </html>
