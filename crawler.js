@@ -127,13 +127,6 @@
 		};
 	};
 
-/*
-	function getLocation(link) {
-		var location = document.createElement("a");
-		location.href = link;
-		return location;
-	}*/
-
 //upload to Firebase DB
 	function uploadImg() {
 		if($(this.children[1]).is(':checked')) {
