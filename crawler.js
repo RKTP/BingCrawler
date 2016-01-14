@@ -136,10 +136,10 @@
 			var location = new URL(jsonData["MediaUrl"]);
 			var host = btoa(location.origin);
 			var path = btoa(location.href);
-			imageRef.once('value',function(snapshot) {
-				var iref = snapshot.child(host).child(path);
-				if(!iref.exists()) {
-					imageRef.child(host).child(path).set(jsonData);
+			var iref = imageRef.child(host).child(path);
+			iref.once('value',function(snapshot) {
+				if(!snapshot.exists()) {
+					iref.set(jsonData);
 				}
 			});
 		}
@@ -147,6 +147,12 @@
 
 //event handling
 	var crawler = BufferedCrawler(appendImage);
+
+	$("#keyword").keyup(function(event) {
+		if(event.keyCode == 13) {
+			$("#btn_search").click();
+		}
+	});
 
 	$('#btn_save').click(function() {
 		$('#result').find(".imageView").map(uploadImg);
