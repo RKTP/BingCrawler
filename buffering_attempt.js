@@ -2,7 +2,6 @@
 	var resultMap = {};
 	var ref = new Firebase("https://luminous-torch-8660.firebaseio.com/");
 	var imageRef = ref.child("images");
-	var keyRef = ref.child("key");
 
 //required data for query
 	var bingQuery = {
