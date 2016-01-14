@@ -78,21 +78,25 @@
 //draw
 	function appendImage(result) {
 		var parent = document.getElementById("result");
-		var image, check, template;
+		var image, check, template, label;
 		for(var i = 0; i < result.length; i++) {
 			template = document.createElement("div");
 			template.className = "imageView";
 			parent.appendChild(template);
 
+			label = document.createElement("label");
+
 			image = document.createElement("img");
 			image.src = result[i]["MediaUrl"];
-			template.appendChild(image);
+			label.appendChild(image);
 
 			check = document.createElement("input");
 			check.type = "checkbox";
 			check.className = "selection";
 			check.checked = true;
-			template.appendChild(check);
+			label.appendChild(check);
+
+			template.appendChild(label);
 
 			parent.appendChild(document.createElement("br"));
 		}
@@ -123,22 +127,24 @@
 		};
 	};
 
+/*
 	function getLocation(link) {
 		var location = document.createElement("a");
 		location.href = link;
 		return location;
-	}
+	}*/
 
 //upload to Firebase DB
 	function uploadImg() {
 		if($(this.children[1]).is(':checked')) {
 			var jsonData = resultMap[this.children[0].src];
-			var location = getLocation(jsonData["MediaUrl"]);
-			var host = btoa(location.hostname);
-			var path = btoa(location.pathname);
+			var location = new URL(jsonData["MediaUrl"]);
+			var host = btoa(location.origin);
+			var path = btoa(location.href);
 			imageRef.once('value',function(snapshot) {
-				if(!snapshot.child(host).exists() || !snapshot.child(host).child(path).exists()) {
-					imageRef.child(host).child(path).set(jsonData);
+				var ref = snapshot.child(host).child(path);
+				if(!ref.exists()) {
+					ref.set(jsonData);
 				}
 			});
 		}
