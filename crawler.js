@@ -82,7 +82,7 @@ function appendImage(result) {
 	var template = Handlebars.compile(structure);
 	for(var i = 0; i < result.length; i++) {
 		var html = template({imageSrc: result[i]["MediaUrl"]});
-		parent.append(html);
+		$(html).find(".image").data("result", result[i]).appendTo(parent);
 	}
 }
 
@@ -114,7 +114,7 @@ var UnbufferedCrawler = function(callback) {
 //upload to Firebase DB
 function uploadImg() {
 	if($(this).find(".selection").is(':checked')) {
-		var jsonData = resultMap[$(this).find(".image").attr("src")];
+		var jsonData = $(this).find(".image").data("result");//resultMap[$(this).find(".image").attr("src")];
 		var location = new URL(jsonData["MediaUrl"]);
 		var host = btoa(location.origin);
 		var path = btoa(location.href);
