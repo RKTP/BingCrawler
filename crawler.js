@@ -1,12 +1,12 @@
 (function($,undefined) {
 	var resultMap = {};
-	var ref = new Firebase("https://luminous-torch-8660.firebaseio.com/");
+	var ref = new Firebase("https://luminous-torch-8660.firebaseio.com/");//One's Firebase URL
 	var imageRef = ref.child("images");
 
 //required data for query
 	var bingQuery = {
 		queryUrl: "https://api.datamarket.azure.com/Bing/Search/Image",
-		encodedKey: btoa(":NgrxKg56U9UaZq0w0z4ZEKRxgMt7LDGjKaHrPgpoY7M="),
+		encodedKey: btoa(":NgrxKg56U9UaZq0w0z4ZEKRxgMt7LDGjKaHrPgpoY7M="),//One's Azure account key
 		inputText: "",
 		setHeader: function(xhr) {
 			xhr.setRequestHeader('Authorization','Basic '+bingQuery.encodedKey);
@@ -88,6 +88,7 @@
 
 			image = document.createElement("img");
 			image.src = result[i]["MediaUrl"];
+			image.className = "image";
 			label.appendChild(image);
 
 			check = document.createElement("input");
@@ -129,15 +130,16 @@
 
 //upload to Firebase DB
 	function uploadImg() {
-		if($(this.children[1]).is(':checked')) {
-			var jsonData = resultMap[this.children[0].src];
+		var label = this.children[0];
+		if($(label.children[1]).is(':checked')) {
+			var jsonData = resultMap[label.children[0].src];
 			var location = new URL(jsonData["MediaUrl"]);
 			var host = btoa(location.origin);
 			var path = btoa(location.href);
 			imageRef.once('value',function(snapshot) {
-				var ref = snapshot.child(host).child(path);
-				if(!ref.exists()) {
-					ref.set(jsonData);
+				var iref = snapshot.child(host).child(path);
+				if(!iref.exists()) {
+					imageRef.child(host).child(path).set(jsonData);
 				}
 			});
 		}
